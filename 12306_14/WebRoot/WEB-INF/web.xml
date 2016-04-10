@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<!-- for check  -->
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<!-- default: /WEB-INF/applicationContext.xml -->
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<!-- <param-value>/WEB-INF/applicationContext-*.xml,classpath*:applicationContext-*.xml</param-value>  -->
+		<param-value>classpath:beans.xml</param-value>
+	</context-param>
+	
+	<filter>
+		<filter-name>adminLoginFilter</filter-name>
+		<filter-class>com.slj.filter.adminLoginFilter</filter-class>
+		
+	</filter>
+	<filter-mapping>
+		<filter-name>adminLoginFilter</filter-name>
+		<url-pattern>/adminloginsuccess.jsp</url-pattern>
+		<url-pattern>/adminTicketHandle.jsp</url-pattern>
+		<url-pattern>/adminUserHandle.jsp</url-pattern>
+		<url-pattern>/deleteTicket.jsp</url-pattern>
+		<url-pattern>/addTicket.jsp</url-pattern>
+		<url-pattern>/updateTicket.jsp</url-pattern>
+		<url-pattern>/deleteTicket.jsp</url-pattern>
+		<url-pattern>/listTicketByadminOfdelete.action</url-pattern>
+		<url-pattern>/listTicketByadmin.action</url-pattern>
+		<url-pattern>/loadUser.action</url-pattern>
+		<url-pattern>/loadUser</url-pattern>
+		
+		
+	</filter-mapping>
+	
+	
+	<filter>
+		<filter-name>openSessionInView</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		<init-param>
+			<param-name>flushMode</param-name>
+			<param-value>AUTO</param-value>
+			
+		</init-param>
+		<init-param>
+			<param-name>singleSession</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>openSessionInView</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	 <servlet>
+    <description>yzm</description>
+    <display-name>yzm</display-name>
+    <servlet-name>DrawImage</servlet-name>
+    <servlet-class>xwcms.net.service.DrawImage</servlet-class>
+  </servlet>
+  <servlet>
+    <description>yzm</description>
+    <display-name>yzm</display-name>
+    <servlet-name>ResultServlet</servlet-name>
+    <servlet-class>xwcms.net.service.ResultServlet</servlet-class>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>DrawImage</servlet-name>
+    <url-pattern>/DrawImage.a</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ResultServlet</servlet-name>
+    <url-pattern>/ResultServlet.a</url-pattern>
+  </servlet-mapping>
+	
+		
+	
+	
+	
+	
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	
+	
+	
+	
+	
+	
+
+</web-app>

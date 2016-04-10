@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.i18n.encoding" value="gbk"></constant>
+
+	<package name="user" namespace="/" extends="struts-default">
+
+		<action name="register" class="userAction">
+            <result name="success">registerSuccess.jsp </result>
+			<result name="fail"> registerFail.jsp</result>
+			<result name="input"> register.jsp</result>
+			<result name="list">listUser.jsp</result>
+			<result name="loadUser">loadUser.jsp</result>
+		</action>
+		
+		<action name="login" class="userAction" method="login">
+			<result name="loginsuccess">addsession.jsp	 </result>
+           	<result name="input">login.jsp  </result>
+		    <result name="loginfail"> loginfaili.jsp</result>
+		</action>
+
+		<action name="loadUser" class="userAction" method="loadUser">
+			<result name="loadUser">loadUser.jsp</result>
+		</action>
+
+		<action name="listUser" class="userAction" method="listUser">
+			<result name="listUser">listUser.jsp </result>
+		</action>
+
+		<action name="AdminLogin" class="adminAction">
+			<result name="success">adminloginsuccess.jsp     </result>
+		    <result name="input">adminlogin.jsp  </result>
+		    <result name="login">adminlogin.jsp   </result>
+		</action>
+		
+		<action name="deleteTicketByadmin" class="adminAction" method="deleteTicketByAdmin">
+			<result name="success">deleteSuccessAdmin.jsp   </result>
+		</action>
+
+
+	</package>
+
+
+
+	<package name="ticket" namespace="/" extends="struts-default">
+
+
+		<action name="deleteTicketByDid" class="ticketAction" method="deleteTicketByTid">
+			<result name="success">	deleteSuccess.jsp      </result> 
+		</action>
+		
+		
+		<action name="listTicket" class="ticketAction">
+			<result name="success">buyticket.jsp  </result>       
+		</action>
+		
+		<action name="addTicket" class="adminAction" method="addTicket">
+			<result name="success">adminloginsuccess.jsp </result>
+			<result name="input">addTicket.jsp     </result>      
+		</action>
+
+		<action name="listTicketByadmin" class="ticketAction">
+			<result name="success">showTicket.jsp </result>	          
+		</action>
+		
+		<action name="listTicketByadminOfdelete" class="ticketAction">
+			<result name="success">deleteTicket.jsp </result>    
+		</action>
+
+		<action name="buyTicketById" class="ticketAction" method="buyTicketById">
+			<result name="success">	buySuccess.jsp		   </result>
+		</action>
+
+		<action name="listTicketById" class="ticketAction" method="findTicketByOrderId">
+			<result name="success">listTicketByorderId.jsp     </result>
+	   </action>
+	   
+		<action name="searchTicket" class="ticketAction" method="searchTicket">
+			<result name="success">searchTicket.jsp</result>		
+		</action>
+		
+	</package>
+</struts>

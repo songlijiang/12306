@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+         http://www.springframework.org/schema/tx 
+         http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.slj"></context:component-scan>
+
+
+
+	
+	<bean name="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+
+	<bean id="myDataSourceMYSQL" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+
+		<!-- results in a setDriverClassName(String) call -->
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://127.0.0.1:3306/my_12306</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value>1234</value>
+		</property>
+	</bean>
+
+	<bean id="myDataSourceSQLSERVER" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+
+		<!-- results in a setDriverClassName(String) call -->
+		<property name="driverClassName">
+			<value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:sqlserver://localhost:1433;databaseName=12306</value>
+		</property>
+		<property name="username">
+			<value>sa</value>
+		</property>
+		<property name="password">
+			<value>slj</value>
+		</property>
+	</bean>
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+
+
+		<property name="dataSource" ref="myDataSourceMYSQL">
+
+		</property>
+		
+		<!--  
+		<property name="annotatedClasses">
+			<list>
+				<value>com.slj.model.User</value>
+				<value>com.slj.model.Log</value>
+			</list>
+
+		</property>
+		-->
+		
+		<property name="packagesToScan">
+			<list>
+				<value>com.slj.model</value>
+			</list>
+		
+		
+		</property>
+		
+		
+		<property name="hibernateProperties">
+			<props>
+					
+				<!--
+				
+					<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect </prop>
+			-->
+				<prop key="hibernate.dialect"> org.hibernate.dialect.MySQLDialect</prop>
+				
+				<prop key="hibernate.show_sql">true</prop>
+
+			</props>
+
+		</property>
+
+	</bean>
+	
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<!-- the transactional semantics... -->
+		<tx:attributes>
+			<!-- all methods starting with 'get' are read-only 
+			<tx:method name="check*" read-only="true" />
+			-->
+			<!-- other methods use the default transaction settings (see below) -->
+			<tx:method name="Add*,buyTicketById" />
+		</tx:attributes>
+	</tx:advice>
+
+ <aop:config>
+  <aop:pointcut expression="execution(public * com.slj.*.*(..))" id="servicePointCut"/>
+ 	
+ 	<aop:advisor advice-ref="txAdvice" pointcut-ref="servicePointCut"/>
+ </aop:config>
+
+
+
+
+
+
+
+</beans>
+
